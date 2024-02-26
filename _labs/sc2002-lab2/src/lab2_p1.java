@@ -1,11 +1,18 @@
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.Scanner;
+
 
 public class lab2_p1 {
     public static void main(String[] args)
     {
         int choice;
         int opd1, opd2, ret;
+        long opd3, retl;
 
         Scanner sc = new Scanner(System.in);
         do {
@@ -30,7 +37,7 @@ public class lab2_p1 {
                     opd2 = sc.nextInt();
                     ret = divide(opd1, opd2);
 
-                    if (ret >= 0) System.out.printf("%d/%d = %d \n", opd1, opd2, ret);
+                    if (ret >= 0) System.out.printf("%d/%d = %d \n\n", opd1, opd2, ret);
                     break;
                 case 3: /* add modulus() call */
                     System.out.print("m: ");
@@ -39,14 +46,14 @@ public class lab2_p1 {
                     opd2 = sc.nextInt();
                     ret = modulus(opd1, opd2);
 
-                    if (ret >= 0) System.out.printf("%d %% %d = %d \n", opd1, opd2, ret);
+                    if (ret >= 0) System.out.printf("%d %% %d = %d \n\n", opd1, opd2, ret);
                     break;
                 case 4: /* add countDigits() call */
                     System.out.print("n: ");
                     opd1 = sc.nextInt();
                     ret = countDigits(opd1);
 
-                    if (ret >= 0) System.out.printf("n: %d - count = %d \n", opd1, ret);
+                    if (ret >= 0) System.out.printf("n: %d - count = %d \n\n", opd1, ret);
                     break;
                 case 5: /* add position() call */
                     System.out.print("n: ");
@@ -55,11 +62,17 @@ public class lab2_p1 {
                     opd2 = sc.nextInt();
                     ret = position(opd1, opd2);
 
-                    System.out.printf("position = %d \n", ret);
+                    System.out.printf("position = %d \n\n", ret);
                     break;
                 case 6: /* add extractOddDigits() call */
+                    System.out.print("n: ");
+                    opd3 = sc.nextLong();
+
+                    retl = extractOddDigits(opd3);
+                    if (retl >= -1) System.out.printf("oddDigits = %d \n\n", retl);
+
                     break;
-                case 7: System.out.println("Program terminating ….");
+                case 7: System.out.println("Program terminating ...");
             }
         } while (choice < 7);
     }
@@ -138,11 +151,45 @@ public class lab2_p1 {
             return -1;
         }
 
+        String n_str = Integer.toString(n);
+        for(int j = n_str.length()-1; j >=0 ; j--){
+            if(Character.getNumericValue(n_str.charAt(j)) == digit){
+                return j;
+            }
+        }
+
         return -1;
     }
 
-    void extractOddDigits() {
+    public static long extractOddDigits(long n) {
+        if ((n < 0)) {
+            System.err.println("n not positive");
+            return -2;
+        }
 
+
+        List<Long> oddDigitsList = new ArrayList<>();
+        Set<Long> oddDigitsSet = new HashSet<>();
+
+        while (n > 0) {
+            long digit = n % 10;
+            if (digit % 2 != 0 && !oddDigitsSet.contains(digit)) {
+                oddDigitsList.add(digit);
+                oddDigitsSet.add(digit);
+            }
+            n /= 10;
+        }
+
+        Collections.reverse(oddDigitsList);
+
+        long result = 0;
+        for (long digit : oddDigitsList) {
+            result = digit + result * 10;
+        }
+
+        if (result == 0) result = -1;
+
+        return result;
     }
 
 }
