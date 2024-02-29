@@ -152,9 +152,11 @@ public class lab2_p1 {
         }
 
         String n_str = Integer.toString(n);
+        int i = 0;
         for(int j = n_str.length()-1; j >=0 ; j--){
+            i++;
             if(Character.getNumericValue(n_str.charAt(j)) == digit){
-                return j;
+                return i;
             }
         }
 
